@@ -6,8 +6,10 @@
 <title>AKC 2027 겨울 5차 캠프 — Arise Korea Camp</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<!-- 첫 화면 배경이라 지연 없이 받아야 합니다 (CSS 배경이므로 preload 로 힌트) -->
-<link rel="preload" as="image" href="assets/hero.jpg" fetchpriority="high">
+<!-- 첫 화면 배경이라 지연 없이 받아야 합니다 (CSS 배경이므로 preload 로 힌트).
+     화면 폭에 맞는 것만 받도록 media 로 나눠 둡니다. -->
+<link rel="preload" as="image" href="assets/hero-1200.webp" type="image/webp" media="(max-width: 900px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-2400.webp" type="image/webp" media="(min-width: 901px)" fetchpriority="high">
 <!-- JS 가 살아 있을 때만 등장 애니메이션을 켭니다.
      스크립트가 실패해도 본문이 보이지 않는 일이 없어야 하므로,
      기본 상태는 "보임"이고 JS 가 있을 때만 "숨김 후 등장"으로 전환합니다. -->
@@ -355,7 +357,10 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .hero-img {
   position: absolute; inset: 0;
-  background-image: url('assets/hero.jpg');
+  /* image-set 을 모르는 브라우저를 위해 JPEG 줄을 먼저 둡니다 */
+  background-image: url('assets/hero-1200.jpg');
+  background-image: image-set(url('assets/hero-1200.webp') type('image/webp'),
+                              url('assets/hero-1200.jpg')  type('image/jpeg'));
   background-size: cover; background-position: 62% 30%;
   transform: scale(1.06);
   animation: zoomOut 12s ease-out forwards;
@@ -537,6 +542,9 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .intro-photo-stack { position: relative; height: 520px; }
 .photo-main {
+  background-image: url('photos/about-main-700.jpg');
+  background-image: image-set(url('photos/about-main-700.webp') type('image/webp'),
+                              url('photos/about-main-700.jpg')  type('image/jpeg'));
   position: absolute; top: 0; right: 0;
   width: 82%; height: 82%;
   background-size: cover; background-position: center;
@@ -591,6 +599,11 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   transition: transform 0.7s ease;
 }
 .camp-card:hover .camp-card-img { transform: scale(1.06); }
+.camp-img-young {
+  background-image: url('photos/camp-young-700.jpg');
+  background-image: image-set(url('photos/camp-young-700.webp') type('image/webp'),
+                              url('photos/camp-young-700.jpg')  type('image/jpeg'));
+}
 .camp-card-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(var(--ink-rgb), 0.96) 0%, rgba(var(--ink-rgb), 0.38) 55%, rgba(var(--ink-rgb), 0.04) 100%);
@@ -969,7 +982,8 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .cta-bg {
   position: absolute; inset: 0;
-  background-image: url('photos/bg/cta.jpg');
+  /* 🖼 IMAGE: 배경 사진이 오면 아래 주석을 해제하세요
+     background-image: url('photos/bg/cta-1400.jpg'); */
   background-size: cover; background-position: center 40%;
   filter: contrast(1.12) saturate(0.7) brightness(0.8);
 }
@@ -1333,7 +1347,7 @@ footer {
 }
 .past-ttl em { font-style: normal; color: var(--accent); }
 .past-sub { font-size: var(--fs-lead); color: var(--text-muted); line-height: 1.85; }
-.past-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.past-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 720px; }
 .past-card {
   background: var(--bg-card); border: 1px solid var(--border-on-dark);
   border-radius: 14px; overflow: hidden; transition: transform .25s, box-shadow .25s;
@@ -1357,6 +1371,25 @@ footer {
 @media (max-width: 560px) {
   .past-grid { grid-template-columns: 1fr; }
   .past-poster { aspect-ratio: 4 / 3; }
+}
+
+/* 데스크톱에서만 큰 파일을 받습니다 */
+@media (min-width: 901px) {
+  .hero-img {
+    background-image: url('assets/hero-2400.jpg');
+    background-image: image-set(url('assets/hero-2400.webp') type('image/webp'),
+                                url('assets/hero-2400.jpg')  type('image/jpeg'));
+  }
+  .photo-main {
+    background-image: url('photos/about-main-1400.jpg');
+    background-image: image-set(url('photos/about-main-1400.webp') type('image/webp'),
+                                url('photos/about-main-1400.jpg')  type('image/jpeg'));
+  }
+  .camp-img-young {
+    background-image: url('photos/camp-young-1400.jpg');
+    background-image: image-set(url('photos/camp-young-1400.webp') type('image/webp'),
+                                url('photos/camp-young-1400.jpg')  type('image/jpeg'));
+  }
 }
 
 /* ══ 움직임 최소화 설정 존중 ═══════════════════════════════════════════
@@ -1661,7 +1694,7 @@ footer {
          파일을 넣은 뒤 각 div 에 style="background-image:url('...');" 를 지정하고
          안쪽 .ph-box 를 삭제하세요. -->
     <div class="intro-photo-stack">
-      <div class="photo-main"><div class="ph-box top"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>캠프 소개 메인 사진<br>photos/about-main.jpg</div></div>
+      <div class="photo-main"></div>
       <div class="photo-accent"><div class="ph-box"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b><strong>5차 캠프 포스터</strong><br>photos/poster.jpg</div></div>
       <div class="photo-badge"><span>5차</span>2027 겨울 캠프</div>
     </div>
@@ -1699,8 +1732,9 @@ footer {
        현재는 분리 구조를 유지합니다. 세션 날짜는 두 카드가 동일합니다. -->
   <div class="camps-grid">
     <div class="camp-card reveal">
-      <!-- 🖼 IMAGE: photos/camp-youth.jpg -->
-      <div class="camp-card-img" style="background-image:url('photos/camp-youth.jpg');"></div>
+      <!-- 🖼 IMAGE: 청소년 캠프 사진이 오면 아래 style 을 넣어주세요
+           style="background-image:url('photos/camp-youth-1400.jpg');" -->
+      <div class="camp-card-img"></div>
       <div class="camp-card-overlay"></div>
       <div class="camp-card-body">
         <div class="camp-tag">✦ Youth Camp · 1·2·3차</div>
@@ -1716,8 +1750,7 @@ footer {
       </div>
     </div>
     <div class="camp-card reveal" style="transition-delay:.1s" id="young-adult">
-      <!-- 🖼 IMAGE: photos/camp-young.jpg -->
-      <div class="camp-card-img" style="background-image:url('photos/camp-young.jpg');"></div>
+      <div class="camp-card-img camp-img-young"></div>
       <div class="camp-card-overlay"></div>
       <div class="camp-card-body">
         <div class="camp-tag">✦ Young Adult Camp · 1·2·3차</div>
@@ -1833,11 +1866,14 @@ footer {
 <div class="tone-break" aria-hidden="true"></div>
 
 <!-- ── 지난 캠프 아카이브 ──────────────────────────────────────────────
-     ⏸ PENDING: 포스터 이미지(photos/past/*.jpg)와 회차별 설명 대기.
+     ⏸ PENDING: 포스터 이미지 대기 — photos/past/past-1-3.jpg, past-area.jpg
      ※ 실제로 진행한 캠프는 영성캠프 3회 + 영역캠프 1회 = 4회이며,
-       이번 겨울이 5번째입니다. 포스터에 "4차"로 표기된 것이 있어도
-       여기 카드 구성은 실제 진행 기준입니다.
-     ※ 회차 순서·대상 표기는 확인 후 .past-no 를 고쳐주세요. -->
+       이번 겨울이 5번째입니다. 1~3차는 포스터가 하나로 공유되어
+       카드도 하나로 묶었습니다.
+     ⚠ 원본 포스터에는 계좌번호와 담당자 개인 휴대전화번호,
+       스탭 참가비, 지난 시즌 주소가 인쇄되어 있습니다.
+       공개 홈페이지에 그대로 올리면 안 되므로, 해당 부분을 잘라낸
+       버전을 올려주세요. -->
 <section class="past-section tone-hot" id="past">
   <div class="past-inner">
     <div class="past-head reveal">
@@ -1848,46 +1884,22 @@ footer {
     <div class="past-grid">
       <article class="past-card reveal">
         <div class="past-poster">
-          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>1차 · 영성캠프 포스터<br>photos/past/past-1.jpg</div>
-          <img src="photos/past/past-1.jpg" alt="1차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>1~3차 · 영성캠프 포스터<br>photos/past/past-1-3.jpg</div>
+          <img src="photos/past/past-1-3.jpg" alt="1~3차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
         </div>
         <div class="past-body">
-          <div class="past-no">1차 · 영성캠프</div>
-          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
-          <div class="past-desc">설명 준비 중</div>
+          <div class="past-no">1~3차 · 영성캠프</div>
+          <div class="past-desc">2026년 여름, 청소년과 청년을 대상으로 세 차례 진행한 2박 3일 영성캠프입니다. 세 차수가 같은 포스터로 안내되었습니다.</div>
         </div>
       </article>
       <article class="past-card reveal">
         <div class="past-poster">
-          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>2차 · 영성캠프 포스터<br>photos/past/past-2.jpg</div>
-          <img src="photos/past/past-2.jpg" alt="2차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>영역캠프 · 수학캠프 포스터<br>photos/past/past-area.jpg</div>
+          <img src="photos/past/past-area.jpg" alt="영역캠프 · 수학캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
         </div>
         <div class="past-body">
-          <div class="past-no">2차 · 영성캠프</div>
-          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
-          <div class="past-desc">설명 준비 중</div>
-        </div>
-      </article>
-      <article class="past-card reveal">
-        <div class="past-poster">
-          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>3차 · 영성캠프 포스터<br>photos/past/past-3.jpg</div>
-          <img src="photos/past/past-3.jpg" alt="3차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
-        </div>
-        <div class="past-body">
-          <div class="past-no">3차 · 영성캠프</div>
-          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
-          <div class="past-desc">설명 준비 중</div>
-        </div>
-      </article>
-      <article class="past-card reveal">
-        <div class="past-poster">
-          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>영역캠프 포스터<br>photos/past/past-area.jpg</div>
-          <img src="photos/past/past-area.jpg" alt="영역캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
-        </div>
-        <div class="past-body">
-          <div class="past-no">영역캠프</div>
-          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
-          <div class="past-desc">설명 준비 중</div>
+          <div class="past-no">영역캠프 · 수학캠프</div>
+          <div class="past-desc">2026년 8월, 고등학생을 대상으로 진행한 4박 5일 수학캠프입니다. 영역캠프의 첫 번째 시도였습니다.</div>
         </div>
       </article>
     </div>
@@ -1967,7 +1979,15 @@ footer {
     <!-- 🖼 IMAGE: photos/location.jpg 를 넣으면 플레이스홀더가 자동으로 사라집니다 -->
     <div class="loc-photo-img">
       <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>태안 수양원 사진<br>photos/location.jpg</div>
-      <img src="photos/location.jpg" alt="태안 수양원" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+      <picture>
+        <source type="image/webp" srcset="photos/location-800.webp 800w, photos/location-1600.webp 1600w"
+                sizes="(max-width: 900px) 100vw, 50vw">
+        <source type="image/jpeg" srcset="photos/location-800.jpg 800w, photos/location-1600.jpg 1600w"
+                sizes="(max-width: 900px) 100vw, 50vw">
+        <img src="photos/location-1600.jpg" alt="태안 수양원 전경" width="1600" height="1200"
+             loading="lazy" decoding="async"
+             onerror="this.style.display='none';this.closest('picture').previousElementSibling.style.display='flex';">
+      </picture>
     </div>
     <div class="loc-photo-badge"><strong><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 20.5h17"/><path d="M4.5 20.5V9.2L12 4.5l7.5 4.7v11.3"/><path d="M9.5 20.5v-5.2h5v5.2"/><path d="M9.5 11.2h5"/></svg> 태안 수양원</strong><span>자체 운영 시설 · 2박 3일 집중 캠프</span></div>
   </div>
