@@ -12,79 +12,128 @@ html { scroll-behavior: smooth; }
 :root {
   /* ══════════════════════════════════════════════════════════════════════
      1) 원색 채널 — 색상(hue)의 유일한 출처
-        회차마다 색이 바뀌면 아래 7줄만 갈아끼우면 전체가 따라옵니다.
+        회차마다 색이 바뀌면 아래 채널만 갈아끼우면 전체가 따라옵니다.
         반투명 색은 rgba(var(--*-rgb), 알파) 형태로 조합합니다.
      ══════════════════════════════════════════════════════════════════════ */
-  --ink-rgb:      11, 35, 69;     /* 짙은 기본색          (구 --navy  #0B2345) */
-  --ink-2-rgb:    15, 48, 96;     /* 짙은 색 밝은 톤       (구 --navy2 #0F3060) */
-  --ink-3-rgb:    26, 74, 138;    /* 짙은 색 가장 밝은 톤   (구 --navy3 #1A4A8A) */
+  --ink-rgb:      26, 26, 26;     /* 차콜 캔버스        #1A1A1A */
+  --ink-2-rgb:    36, 36, 36;     /* 카드·패널 면       #242424 */
+  --ink-3-rgb:    46, 46, 46;     /* 완충 구간·hover 면 #2E2E2E */
   --paper-rgb:    255, 255, 255;  /* 밝은 기본색 */
-  --accent-rgb:   201, 149, 31;   /* 강조색               (구 --gold   #C9951F) */
-  --accent-2-rgb: 232, 184, 58;   /* 강조색 밝은 톤        (구 --gold2  #E8B83A) */
-  --shade-rgb:    0, 0, 0;        /* 순수 그림자·최암부 */
+  --shade-rgb:    0, 0, 0;        /* 순수 그림자 */
 
-  /* ── 배경 ─────────────────────────────────────────────────────────── */
-  --bg-page:      rgb(var(--paper-rgb));   /* 페이지 기본 배경 */
-  --bg-card:      rgb(var(--paper-rgb));   /* 밝은 구역의 카드·패널 면 */
-  --bg-deep:      rgb(var(--ink-rgb));     /* 어두운 섹션 배경 */
-  --bg-deep-2:    rgb(var(--ink-2-rgb));   /* 어두운 배경 그라디언트 밝은 쪽 */
-  --bg-deep-3:    rgb(var(--ink-3-rgb));   /* 어두운 배경 그라디언트 최명부 */
-  --bg-subtle:    #F0F5FF;                 /* 은은한 구역 배경        (구 --ice) */
-  --bg-subtle-2:  #E4EDFB;                 /* 은은한 면 한 단계 진하게 (구 --ice2) */
-  --bg-subtle-3:  #D0DDF5;                 /* 미사용 — 구 --ice3 의 면 용도. 현재는 전부 --line-soft(구분선)로 정리됨 */
+  /* 강조색 2종 × 2톤 — 배경은 고정, 강조색만 구역별로 강도가 달라집니다 */
+  --accent-hot-rgb:    244, 224, 77;   /* 형광 옐로우 #F4E04D  (차콜 위 12.94:1) */
+  --accent-hot-2-rgb:  62, 217, 180;   /* 민트       #3ED9B4  (차콜 위  9.77:1) */
+  --accent-calm-rgb:   201, 169, 97;   /* 골드       #C9A961  (차콜 위  7.73:1) */
+  --accent-calm-2-rgb: 111, 168, 154;  /* 세이지     #6FA89A  (차콜 위  6.42:1) */
+  /* 톤과 무관하게 항상 옐로우로 남는 브랜드 앵커 (고정 CTA·로고 등).
+     차분한 구역에서도 이 요소가 화면에 남아 있어야 같은 사이트로 읽힙니다. */
+  --accent-hot:   rgb(var(--accent-hot-rgb));
+  --accent-hot-2: rgb(var(--accent-hot-2-rgb));
 
-  /* ── 텍스트 ───────────────────────────────────────────────────────── */
-  --text-strong:      rgb(var(--ink-rgb));    /* 밝은 배경 위 헤드라인·강조 */
-  --text-strong-2:    rgb(var(--ink-2-rgb));  /* 밝은 배경 위 hover 강조 */
-  --text-body:        #4A6080;                /* 밝은 배경 위 본문      (구 --mid) */
-  --text-faint:       #8AA0BC;                /* 밝은 배경 위 캡션·메타  (구 --lt) */
-  --text-invert:      rgb(var(--paper-rgb));  /* 어두운 배경 위 헤드라인 */
-  --text-invert-soft: #F0F5FF;                /* 어두운 배경 위 본문 */
-  --text-invert-2:    #E4EDFB;                /* 어두운 배경 위 본문 한 단계 낮은 명도 */
-  --text-invert-dim:  #D0DDF5;                /* 어두운 배경 위 보조 설명 */
-  --text-on-accent:   rgb(var(--shade-rgb));  /* 강조색 면 위 텍스트 */
-  /* ⚠ 강조색 면 위 흰 텍스트 — 실측 대비 2.25:1 로 WCAG 미달.
-        2단계에서 --text-on-accent 로 교체 대상. 1단계에서는 현행 유지. */
-  --text-on-accent-legacy: rgb(var(--paper-rgb));
+  /* 기본 톤 = 쨍한 버전. 구역별 전환은 아래 .tone-hot / .tone-calm 참조 */
+  --accent-rgb:    var(--accent-hot-rgb);
+  --accent-2-rgb:  var(--accent-hot-2-rgb);
+  --accent:        rgb(var(--accent-hot-rgb));
+  --accent-2:      rgb(var(--accent-hot-2-rgb));
+  --accent-bright: rgb(var(--accent-hot-rgb));
 
-  /* ── 강조 ─────────────────────────────────────────────────────────── */
-  --accent:        rgb(var(--accent-rgb));    /* 기본 강조색   (구 --gold) */
-  --accent-bright: rgb(var(--accent-2-rgb));  /* 밝은 강조색   (구 --gold2) */
+  /* ── 배경 — 전 구간 차콜로 통일. 섹션마다 밝게/어둡게 뒤집지 않습니다 ── */
+  --bg-page:      rgb(var(--ink-rgb));    /* 페이지 기본 캔버스 */
+  --bg-deep:      rgb(var(--ink-rgb));    /* 섹션 배경 — 캔버스와 동일 */
+  --bg-subtle:    rgb(var(--ink-rgb));    /* 섹션 배경 — 캔버스와 동일 */
+  --bg-card:      rgb(var(--ink-2-rgb));  /* 카드·패널 면 */
+  --bg-subtle-2:  rgb(var(--ink-2-rgb));  /* 작은 면(아이콘 원 등) */
+  --bg-soft:      rgb(var(--ink-3-rgb));  /* 톤 전환 완충 구간 */
+  --bg-deep-2:    rgb(var(--ink-2-rgb));  /* 그라디언트 중간 단계 */
+  --bg-deep-3:    rgb(var(--ink-3-rgb));  /* 그라디언트 최명부 */
+  --bg-subtle-3:  rgb(var(--ink-2-rgb));  /* 미사용 — 구 --ice3 의 면 용도 */
+
+  /* ── 텍스트 — 차콜 위 실측 대비 ─────────────────────────────────────
+     흰색 #FFFFFF 17.40:1 / #F2F2F2 15.55:1 / #C9C9C9 10.51:1 / #9A9A9A 6.19:1
+     #7A7A7A 이하(4.05:1)는 본문 기준 미달이므로 쓰지 않습니다.          */
+  --text-strong:      #FFFFFF;   /* 헤드라인 */
+  --text-strong-2:    #FFFFFF;   /* hover 강조 */
+  --text:             #F2F2F2;   /* 본문 기본 */
+  --text-body:        #F2F2F2;   /* 본문 기본(별칭) */
+  --text-muted:       #C9C9C9;   /* 보조 설명 */
+  --text-dim:         #9A9A9A;   /* 캡션·메타 — 본문 기준 통과 하한 */
+  --text-faint:       #9A9A9A;   /* 캡션·메타(별칭) */
+  --text-invert:      #FFFFFF;   /* 헤드라인(별칭) */
+  --text-invert-soft: #F2F2F2;   /* 본문(별칭) */
+  --text-invert-2:    #C9C9C9;   /* 보조 설명(별칭) */
+  --text-invert-dim:  #C9C9C9;   /* 보조 설명(별칭) */
+  /* 강조색 면 위 텍스트는 차콜만 사용합니다.
+     흰색은 옐로우 1.34:1 / 민트 1.78:1 / 골드 2.25:1 / 세이지 2.71:1 로
+     WCAG 최저 기준(3.0)에도 못 미칩니다. */
+  --text-on-accent:   rgb(var(--ink-rgb));
 
   /* ── 면 (반투명) ──────────────────────────────────────────────────── */
-  --surface-nav:         rgba(var(--paper-rgb), 0.95);  /* 상단 내비 */
-  --surface-nav-mobile:  rgba(var(--paper-rgb), 0.98);  /* 모바일 내비 패널 */
-  --surface-hover:       #F0F5FF;                       /* 밝은 구역 hover 면 */
-  --surface-hover-2:     #E4EDFB;                       /* 밝은 구역 hover 면 진한 단계 */
-  --surface-raised:      rgba(var(--paper-rgb), .04);   /* 어두운 면 위 카드 */
-  --surface-raised-hi:   rgba(var(--paper-rgb), 0.07);  /* 어두운 면 위 카드 hover */
-  --surface-pill:        rgba(var(--paper-rgb), 0.1);   /* 어두운 면 위 알약 버튼 */
+  --surface-nav:         rgba(var(--ink-rgb), 0.9);     /* 상단 내비 */
+  --surface-nav-mobile:  rgba(var(--ink-rgb), 0.98);    /* 모바일 내비 패널 */
+  --surface-hover:       rgb(var(--ink-3-rgb));         /* hover 면 */
+  --surface-hover-2:     rgb(var(--ink-3-rgb));         /* hover 면(별칭) */
+  --surface-raised:      rgba(var(--paper-rgb), .04);   /* 카드 면 살짝 부양 */
+  --surface-raised-hi:   rgba(var(--paper-rgb), 0.07);  /* 카드 hover */
+  --surface-pill:        rgba(var(--paper-rgb), 0.1);   /* 알약 버튼 */
   --surface-accent-soft: rgba(var(--accent-rgb), 0.15); /* 강조색 은은한 면 */
   --surface-scrim:       rgba(var(--ink-rgb), 0.72);    /* 이미지 위 가독 확보용 막 */
-  --surface-backdrop:    rgba(var(--shade-rgb), 0.2);   /* 푸터 최하단 등 최암부 면 */
+  --surface-backdrop:    rgba(var(--shade-rgb), 0.35);  /* 최암부 면 */
 
   /* ── 경계 ─────────────────────────────────────────────────────────── */
-  --line-soft:       #D0DDF5;                          /* 밝은 구역 구분선   (구 --ice3) */
-  --line-subtle:     #F0F5FF;                          /* 밝은 구역 옅은 구분선 */
-  --border-subtle:   rgba(var(--ink-rgb), 0.08);       /* 내비 하단 경계 */
-  --border-hairline: rgba(var(--ink-rgb), 0.1);        /* 드롭다운 경계 */
-  --border-strong:   rgb(var(--ink-rgb));              /* 활성 탭 등 진한 경계 */
-  --border-invert:   rgb(var(--paper-rgb));            /* 어두운 면 위 흰 경계 */
-  --border-on-dark:  rgba(var(--paper-rgb), 0.07);     /* 어두운 면 위 카드 경계 */
-  --border-pill:     rgba(var(--paper-rgb), 0.18);     /* 어두운 면 위 알약 경계 */
-  --border-accent:   rgba(var(--accent-2-rgb), .28);   /* 강조색 경계 */
+  --line-soft:       rgba(var(--paper-rgb), 0.12);   /* 구분선 */
+  --line-subtle:     rgba(var(--paper-rgb), 0.06);   /* 옅은 구분선 */
+  --border-subtle:   rgba(var(--paper-rgb), 0.08);   /* 내비 하단 경계 */
+  --border-hairline: rgba(var(--paper-rgb), 0.12);   /* 드롭다운 경계 */
+  --border-strong:   var(--accent);                  /* 활성 탭 등 진한 경계 */
+  --border-invert:   rgb(var(--paper-rgb));          /* 흰 경계 */
+  --border-on-dark:  rgba(var(--paper-rgb), 0.07);   /* 카드 경계 */
+  --border-pill:     rgba(var(--paper-rgb), 0.18);   /* 알약 경계 */
+  --border-accent:   rgba(var(--accent-rgb), .32);   /* 강조색 경계 */
 
-  /* ── 그림자 ───────────────────────────────────────────────────────── */
-  --shadow-nav:  0 2px 28px rgba(var(--ink-rgb), 0.1);    /* 스크롤 시 내비 */
-  --shadow-drop: 0 12px 40px rgba(var(--ink-rgb), 0.12);  /* 드롭다운 패널 */
-  --shadow-lift: 0 20px 48px rgba(var(--ink-rgb), .1);    /* 카드 hover 부양 */
+  /* ── 그림자 — 차콜 배경에서는 순수 검정이라야 보입니다 ─────────────── */
+  --shadow-nav:  0 2px 28px rgba(var(--shade-rgb), 0.5);
+  --shadow-drop: 0 12px 40px rgba(var(--shade-rgb), 0.55);
+  --shadow-lift: 0 20px 48px rgba(var(--shade-rgb), 0.5);
 
   /* ── 폰트 ─────────────────────────────────────────────────────────── */
   --f-punch:  'Do Hyeon', sans-serif;      /* 대형 임팩트 타이틀 */
-  --f-clean:  'Do Hyeon', sans-serif;      /* 섹션 헤딩 — 깔끔·모던 */
-  --f-body:   'Noto Sans KR', sans-serif;  /* 본문 — 가독성 */
+  --f-clean:  'Do Hyeon', sans-serif;      /* 섹션 헤딩 */
+  --f-body:   'Noto Sans KR', sans-serif;  /* 본문 */
   --f-eng:    'Bebas Neue', sans-serif;    /* 영문 장식 */
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   톤 구역 — 배경(차콜)은 그대로 두고 얹는 강조색의 강도만 바꿉니다.
+   조명만 바꾸는 것이지 무대를 바꾸는 게 아닙니다.
+     .tone-hot  : 청소년 대상 구역 — 형광 옐로우 + 민트
+     .tone-calm : 부모 신뢰 구역   — 골드 + 세이지
+   개별 요소는 var(--accent) / var(--accent-2) 만 참조하므로
+   섹션을 다른 톤으로 옮겨도 코드를 고칠 필요가 없습니다.
+   ══════════════════════════════════════════════════════════════════════ */
+.tone-hot {
+  --accent-rgb:    var(--accent-hot-rgb);
+  --accent-2-rgb:  var(--accent-hot-2-rgb);
+  --accent:        rgb(var(--accent-hot-rgb));
+  --accent-2:      rgb(var(--accent-hot-2-rgb));
+  --accent-bright: rgb(var(--accent-hot-rgb));
+  --surface-accent-soft: rgba(var(--accent-hot-rgb), 0.15);
+  --border-accent:       rgba(var(--accent-hot-rgb), .32);
+}
+.tone-calm {
+  --accent-rgb:    var(--accent-calm-rgb);
+  --accent-2-rgb:  var(--accent-calm-2-rgb);
+  --accent:        rgb(var(--accent-calm-rgb));
+  --accent-2:      rgb(var(--accent-calm-2-rgb));
+  --accent-bright: rgb(var(--accent-calm-rgb));
+  --surface-accent-soft: rgba(var(--accent-calm-rgb), 0.15);
+  --border-accent:       rgba(var(--accent-calm-rgb), .32);
+}
+
+/* 톤이 바뀌는 경계의 완충 구간 — 배경색이 바뀌는 게 아니라
+   한 톤 밝아졌다가 돌아오는 정도입니다. */
+.tone-break { height: 64px; background: var(--bg-soft); }
+
 
 body {
   background: var(--bg-page);
@@ -96,8 +145,8 @@ body {
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--bg-subtle); }
-::-webkit-scrollbar-thumb { background: var(--bg-deep); border-radius: 2px; }
+::-webkit-scrollbar-track { background: var(--bg-page); }
+::-webkit-scrollbar-thumb { background: var(--bg-soft); border-radius: 2px; }
 
 /* ── NAV ── */
 nav {
@@ -178,13 +227,13 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 
 /* 등록 버튼 */
 .nav-reg {
-  background: var(--bg-deep); color: var(--text-invert) !important;
+  background: var(--accent-hot); color: var(--text-on-accent) !important;
   padding: 9px 20px; font-weight: 700 !important;
   border-radius: 6px; transition: background 0.2s !important;
   font-size: 13px !important; margin-left: 8px;
   white-space: nowrap;
 }
-.nav-reg:hover { background: var(--bg-deep-2) !important; }
+.nav-reg:hover { background: var(--accent-hot-2) !important; }
 
 /* 모바일 햄버거 */
 .nav-hamburger {
@@ -193,7 +242,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .nav-hamburger span {
   display: block; width: 24px; height: 2px;
-  background: var(--bg-deep); border-radius: 2px;
+  background: var(--text-invert); border-radius: 2px;
   transition: all 0.3s;
 }
 .nav-mobile {
@@ -240,7 +289,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 /* 네이비·골드 듀오톤 색보정 */
 .hero-img::after {
   content:''; position:absolute; inset:0;
-  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.55) 0%, rgba(var(--ink-rgb), 0.10) 48%, rgba(var(--accent-rgb), 0.20) 100%);
+  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.55) 0%, rgba(var(--ink-rgb), 0.10) 48%, rgba(var(--accent-rgb), 0.12) 100%);
   mix-blend-mode: overlay;
 }
 @keyframes zoomOut { to { transform: scale(1); } }
@@ -284,7 +333,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .hero-theme-sub {
   font-family: var(--f-clean);
   font-size: clamp(16px, 2.2vw, 24px);
-  color: rgba(var(--paper-rgb), 0.75);
+  color: var(--text);
   letter-spacing: 2px; margin-bottom: 20px;
   animation: fadeUp 0.9s ease 0.4s both;
 }
@@ -293,7 +342,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   font-family: var(--f-punch);
   font-size: clamp(28px, 4vw, 52px);
   line-height: 0.95; letter-spacing: 6px;
-  color: rgba(var(--paper-rgb), 0.6); margin-bottom: 20px;
+  color: var(--text-muted); margin-bottom: 20px;
   animation: fadeUp 0.9s ease 0.5s both;
 }
 .hero-h1 em { font-style: normal; color: var(--accent-bright); display: block; }
@@ -307,7 +356,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .hero-verse-text {
   font-family: var(--f-clean);
-  font-size: 14px; color: rgba(var(--paper-rgb), 0.5);
+  font-size: 14px; color: var(--text-muted);
   line-height: 1.8;
 }
 .hero-verse-ref {
@@ -319,7 +368,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 
 .hero-desc {
   font-size: clamp(15px, 1.8vw, 18px);
-  color: rgba(var(--paper-rgb), 0.58);
+  color: var(--text-muted);
   line-height: 1.85; max-width: 520px;
   text-align: left; font-weight: 300;
   font-family: var(--f-body);
@@ -346,14 +395,14 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .btn-secondary:hover { background: rgba(var(--paper-rgb), 0.1); border-color: rgba(var(--paper-rgb), 0.6); }
 
 /* ── MARQUEE ── */
-.marquee-bar { background: var(--bg-deep); padding: 15px 0; overflow: hidden; }
+.marquee-bar { background: var(--bg-card); padding: 15px 0; overflow: hidden; }
 .marquee-inner {
   display: flex; animation: marquee 22s linear infinite; white-space: nowrap;
 }
 .marquee-inner span {
   font-family: var(--f-eng);
   font-size: 20px; letter-spacing: 4px;
-  color: rgba(var(--paper-rgb), 0.88); padding: 0 36px;
+  color: var(--text); padding: 0 36px;
 }
 .marquee-inner .sep { color: var(--accent); opacity: 0.7; }
 @keyframes marquee { from {transform:translateX(0)} to {transform:translateX(-50%)} }
@@ -411,21 +460,22 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   position: absolute; top: 0; right: 0;
   width: 82%; height: 82%;
   background-size: cover; background-position: center;
-  border-radius: 12px; box-shadow: 0 24px 60px rgba(var(--ink-rgb), 0.18);
+  border-radius: 12px; box-shadow: 0 24px 60px rgba(var(--shade-rgb), 0.45);
 }
 .photo-accent {
   position: absolute; bottom: 0; left: 0;
   width: 58%; height: 52%;
   background-size: cover; background-position: center;
   border-radius: 12px; border: 5px solid var(--border-invert);
-  box-shadow: 0 16px 40px rgba(var(--ink-rgb), 0.14);
+  box-shadow: 0 16px 40px rgba(var(--shade-rgb), 0.4);
 }
 .photo-badge {
   position: absolute; top: 32px; left: 0;
-  background: var(--bg-deep); color: var(--text-invert);
+  background: var(--bg-card); color: var(--text-invert);
+  border: 1px solid var(--border-hairline);
   padding: 14px 20px; border-radius: 8px;
   font-size: 13px; font-weight: 700;
-  box-shadow: 0 8px 24px rgba(var(--ink-rgb), 0.25); z-index: 2;
+  box-shadow: 0 8px 24px rgba(var(--shade-rgb), 0.5); z-index: 2;
 }
 .photo-badge span {
   display: block; font-family: var(--f-clean);
@@ -446,7 +496,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .camps-title em { font-style: normal; color: var(--accent-bright); }
 .camps-desc {
-  font-size: 14px; color: rgba(var(--paper-rgb), 0.32);
+  font-size: 14px; color: var(--text-dim);
   max-width: 240px; text-align: right; line-height: 1.7; font-weight: 300;
 }
 .camps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -481,7 +531,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   line-height: 1.05; margin-bottom: 20px;
 }
 .camp-info {
-  font-size: 14px; color: rgba(var(--paper-rgb), 0.52);
+  font-size: 14px; color: var(--text-muted);
   line-height: 1.8; max-width: 320px; font-weight: 300; margin-bottom: 28px;
   opacity: 0; transform: translateY(10px); transition: all 0.4s 0.08s;
 }
@@ -489,7 +539,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .camp-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
 .camp-pill {
   background: var(--surface-pill); border: 1px solid var(--border-pill);
-  color: rgba(var(--paper-rgb), 0.72); font-size: 11px; padding: 5px 14px; border-radius: 20px;
+  color: var(--text); font-size: 11px; padding: 5px 14px; border-radius: 20px;
 }
 .camp-cta {
   display: inline-flex; align-items: center; gap: 8px;
@@ -527,14 +577,14 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .why-row::before {
   content: ''; position: absolute;
   left: -64px; right: -64px; top: 0; bottom: 0;
-  background: var(--bg-subtle); opacity: 0; transition: opacity 0.3s; z-index: 0;
+  background: var(--surface-hover); opacity: 0; transition: opacity 0.3s; z-index: 0;
 }
 .why-row:hover::before { opacity: 1; }
 .why-row > * { position: relative; z-index: 1; }
 .why-row:hover .why-num { color: var(--accent); }
 .why-num {
   font-family: var(--f-eng);
-  font-size: 52px; color: var(--text-invert-dim);
+  font-size: 52px; color: var(--text-dim);
   transition: color 0.3s; line-height: 1; text-align: center;
 }
 .why-body { min-width: 0; }
@@ -567,7 +617,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .qf-bg::after {
   content:''; position:absolute; inset:0;
-  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.45), rgba(var(--accent-rgb), 0.16));
+  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.45), rgba(var(--accent-rgb), 0.10));
   mix-blend-mode: overlay;
 }
 .qf-overlay { position: absolute; inset: 0; background: var(--surface-scrim); }
@@ -584,7 +634,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .qf-text em { font-style: normal; color: var(--accent-bright); }
 .qf-from {
-  font-size: 12px; color: rgba(var(--paper-rgb), 0.38);
+  font-size: 12px; color: var(--text-dim);
   letter-spacing: 4px; text-transform: uppercase;
 }
 
@@ -639,7 +689,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .lightbox-close:hover { opacity: 1; }
 .hitem-cap {
   position: absolute; bottom: 18px; left: 18px;
-  background: var(--surface-scrim); color: rgba(var(--paper-rgb), 0.68);
+  background: var(--surface-scrim); color: var(--text);
   font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
   padding: 5px 12px; border-radius: 4px; backdrop-filter: blur(4px);
 }
@@ -691,10 +741,10 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .sched-ln:hover { background: var(--surface-hover); color: var(--text-strong); }
 .sched-ln.k { color: var(--text-strong); font-weight: 700; }
 .sched-ln .d { width: 6px; height: 6px; border-radius: 50%; background: var(--line-soft); flex-shrink: 0; }
-.sched-ln.k .d { background: var(--accent); }
+.sched-ln.k .d { background: var(--accent-2); }
 .day-note { margin-top: 20px; font-size: 13px; color: var(--text-faint); line-height: 1.7; font-weight: 400; }
 .price-box {
-  margin-top: 24px; padding: 18px 20px; background: var(--bg-subtle);
+  margin-top: 24px; padding: 18px 20px; background: var(--bg-card);
   border-radius: 8px; border-left: 3px solid var(--accent);
   font-size: 14px; color: var(--text-strong); font-weight: 700;
   display: flex; align-items: center; gap: 10px;
@@ -732,11 +782,11 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   opacity: 0.2; line-height: 1; margin-bottom: 14px;
 }
 .tc-text {
-  font-size: 14px; color: rgba(var(--paper-rgb), 0.6);
+  font-size: 14px; color: var(--text-muted);
   line-height: 1.9; margin-bottom: 24px; font-weight: 300;
 }
-.tc.big .tc-text { font-size: 17px; color: rgba(var(--paper-rgb), 0.76); }
-.tc-who { font-size: 12px; color: rgba(var(--paper-rgb), 0.24); letter-spacing: 1px; }
+.tc.big .tc-text { font-size: 17px; color: var(--text); }
+.tc-who { font-size: 12px; color: var(--text-dim); letter-spacing: 1px; }
 .tc-who strong { color: var(--accent-bright); font-weight: 700; }
 
 /* ── LOCATION ── */
@@ -772,7 +822,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 .loc-txt span { font-size: 13px; color: var(--text-body); line-height: 1.6; }
 .loc-photo {
   position: relative; height: 520px; border-radius: 16px; overflow: hidden;
-  box-shadow: 0 24px 60px rgba(var(--ink-rgb), 0.15);
+  box-shadow: 0 24px 60px rgba(var(--shade-rgb), 0.45);
 }
 .loc-photo-img {
   width: 100%; height: 100%;
@@ -788,14 +838,14 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   backdrop-filter: blur(8px); border: 1px solid rgba(var(--paper-rgb), 0.1);
 }
 .loc-photo-badge strong { display: block; font-size: 14px; margin-bottom: 4px; font-weight: 700; }
-.loc-photo-badge span { font-size: 12px; color: rgba(var(--paper-rgb), 0.42); }
+.loc-photo-badge span { font-size: 12px; color: var(--text-dim); }
 .btn-map {
   display: inline-flex; align-items: center; gap: 10px;
-  background: var(--bg-deep); color: var(--text-invert);
+  background: var(--accent); color: var(--text-on-accent);
   font-size: 13px; font-weight: 700; letter-spacing: 0.5px;
   padding: 14px 28px; border-radius: 6px; text-decoration: none; transition: all 0.25s;
 }
-.btn-map:hover { background: var(--bg-deep-2); gap: 16px; }
+.btn-map:hover { background: var(--accent-2); gap: 16px; }
 
 /* ── FAQ ── */
 .faq-wrap { background: var(--bg-subtle); padding: 120px 64px; }
@@ -823,7 +873,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   font-size: 18px; font-weight: 300; color: var(--text-faint);
   transition: all 0.35s; flex-shrink: 0;
 }
-.faq-item.open .faq-plus { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent-legacy); transform: rotate(45deg); }
+.faq-item.open .faq-plus { background: var(--accent); border-color: var(--accent); color: var(--text-on-accent); transform: rotate(45deg); }
 .faq-a {
   max-height: 0; overflow: hidden;
   transition: max-height 0.45s ease, padding 0.3s;
@@ -845,7 +895,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 }
 .cta-bg::after {
   content:''; position:absolute; inset:0;
-  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.5), rgba(var(--accent-rgb), 0.18));
+  background: linear-gradient(120deg, rgba(var(--ink-rgb), 0.5), rgba(var(--accent-rgb), 0.10));
   mix-blend-mode: overlay;
 }
 .cta-overlay {
@@ -868,12 +918,12 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
 /* ★ CTA 서브 — Do Hyeon */
 .cta-sub {
   font-family: var(--f-clean);
-  font-size: 20px; color: rgba(var(--paper-rgb), 0.45);
+  font-size: 20px; color: var(--text-dim);
   margin-bottom: 52px; line-height: 1.7;
   max-width: 440px; margin-inline: auto; margin-bottom: 52px;
 }
 .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.cta-note { margin-top: 28px; font-size: 12px; color: rgba(var(--paper-rgb), 0.18); letter-spacing: 1px; }
+.cta-note { margin-top: 28px; font-size: 12px; color: var(--text-dim); letter-spacing: 1px; }
 
 /* ── FOOTER ── */
 footer {
@@ -885,18 +935,18 @@ footer {
   font-size: 40px; letter-spacing: 3px;
   color: var(--accent-bright); display: block; margin-bottom: 12px;
 }
-.f-desc { font-size: 13px; color: rgba(var(--paper-rgb), 0.22); line-height: 1.8; margin-bottom: 24px; }
+.f-desc { font-size: 13px; color: var(--text-dim); line-height: 1.8; margin-bottom: 24px; }
 .f-col-ttl {
   font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: rgba(var(--paper-rgb), 0.3); margin-bottom: 16px; font-weight: 600;
+  color: var(--text-dim); margin-bottom: 16px; font-weight: 600;
 }
 .f-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-.f-links a { font-size: 13px; color: rgba(var(--paper-rgb), 0.26); text-decoration: none; transition: color 0.2s; }
+.f-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
 .f-links a:hover { color: var(--accent-bright); }
 .f-bottom {
   background: var(--surface-backdrop); padding: 20px 64px;
   display: flex; justify-content: space-between;
-  font-size: 11px; color: rgba(var(--paper-rgb), 0.14); letter-spacing: 0.5px;
+  font-size: 11px; color: var(--text-dim); letter-spacing: 0.5px;
 }
 
 /* ── REVEAL ── */
@@ -928,18 +978,18 @@ footer {
   border: 1px solid var(--line-soft); transition: transform .25s, box-shadow .25s;
 }
 .kingdom-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
-.kingdom-en { font-family: var(--f-eng); font-size: 22px; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
+.kingdom-en { font-family: var(--f-eng); font-size: 22px; letter-spacing: 2px; color: var(--accent-2); margin-bottom: 10px; }
 .kingdom-ko { font-family: var(--f-clean); font-size: 24px; color: var(--text-strong); margin-bottom: 14px; }
 .kingdom-desc { font-size: 14px; color: var(--text-body); line-height: 1.75; }
 .kingdom-desc strong { display: block; color: var(--text-strong); font-weight: 700; margin-bottom: 7px; }
 .area-banner {
-  background: linear-gradient(135deg, var(--bg-deep-2), var(--bg-deep));
+  background: linear-gradient(135deg, var(--bg-deep-3), var(--bg-card));
   border: 1px solid var(--border-accent);
   border-radius: 20px; padding: 56px 48px;
   position: relative; overflow: hidden;
 }
 .area-banner::before { content:''; position:absolute; inset:0;
-  background: radial-gradient(circle at 82% 18%, rgba(var(--accent-rgb), .28), transparent 55%); }
+  background: radial-gradient(circle at 82% 18%, rgba(var(--accent-rgb), .10), transparent 55%); }
 
 /* 캠프 섹션(우리의 캠프) 안에 들어가는 영역캠프 비전선포 */
 .camps-section .area-banner { margin: 40px 0 48px; }
@@ -956,7 +1006,7 @@ footer {
   padding: 8px 16px; border: 1px solid rgba(var(--paper-rgb), .22);
   border-radius: 999px; background: rgba(var(--paper-rgb), .04);
 }
-.area-tag strong { color: var(--accent-bright); font-weight: 700; margin-right: 7px; }
+.area-tag strong { color: var(--accent-2); font-weight: 700; margin-right: 7px; }
 
 /* ══ 강사 안내 (Speakers) ══ */
 .speakers-section { background: var(--bg-deep); padding: 120px 64px; }
@@ -975,12 +1025,12 @@ footer {
 .sp-photo { position: relative; aspect-ratio: 4/5; background: linear-gradient(160deg, var(--bg-deep-2), var(--bg-deep-3));
   display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .sp-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.sp-ph { font-size: 13px; color: rgba(var(--paper-rgb), .42); letter-spacing: 1px; }
+.sp-ph { font-size: 13px; color: var(--text-dim); letter-spacing: 1px; }
 .sp-body { padding: 24px 24px 28px; }
 .sp-name { font-family: var(--f-clean); font-size: 22px; color: var(--text-invert); margin-bottom: 12px; }
 .sp-roles { list-style: none; }
 .sp-roles li { font-size: 13.5px; color: var(--text-invert-dim); line-height: 1.7; padding-left: 14px; position: relative; }
-.sp-roles li::before { content:''; position:absolute; left:0; top:11px; width:5px; height:5px; border-radius:50%; background: var(--accent-bright); }
+.sp-roles li::before { content:''; position:absolute; left:0; top:11px; width:5px; height:5px; border-radius:50%; background: var(--accent-2); }
 
 /* ══ 앱 소개 (App) ══ */
 .app-section { background: var(--bg-subtle); padding: 120px 64px; }
@@ -1003,13 +1053,13 @@ footer {
 .sp-img { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 20px 60px rgba(var(--shade-rgb), .35); }
 .sp-imgph { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   min-height: 480px; background: rgba(var(--paper-rgb), .04); border: 1.5px dashed rgba(var(--paper-rgb), .2);
-  border-radius: 16px; color: rgba(var(--paper-rgb), .45); font-size: 14px; line-height: 1.8; }
+  border-radius: 16px; color: var(--text-dim); font-size: 14px; line-height: 1.8; }
 
 /* ══ 일정표 이미지 ══ */
 .sched-imgwrap { position: relative; }
-.sched-img { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 16px 48px rgba(var(--ink-rgb), .12); }
+.sched-img { width: 100%; height: auto; display: block; border-radius: 16px; box-shadow: 0 16px 48px rgba(var(--shade-rgb), 0.4); }
 .sched-ph { display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  min-height: 380px; background: var(--bg-subtle); border: 1.5px dashed var(--line-soft); border-radius: 16px;
+  min-height: 380px; background: var(--bg-card); border: 1.5px dashed var(--line-soft); border-radius: 16px;
   color: var(--text-faint); font-size: 14px; line-height: 1.8; }
 
 
@@ -1017,7 +1067,7 @@ footer {
 .id-verse {
   max-width: 760px; margin: -20px 0 52px; padding: 26px 32px;
   background: var(--bg-card); border-left: 3px solid var(--accent);
-  border-radius: 0 12px 12px 0; box-shadow: 0 10px 30px rgba(var(--ink-rgb), .06);
+  border-radius: 0 12px 12px 0; box-shadow: 0 10px 30px rgba(var(--shade-rgb), 0.3);
 }
 .id-verse-text { font-size: clamp(14px,1.35vw,16px); color: var(--text-strong); line-height: 1.9; font-weight: 400; }
 .id-verse-ref { margin-top: 14px; font-size: 12px; letter-spacing: 2px; color: var(--accent); font-weight: 700; }
@@ -1028,7 +1078,7 @@ footer {
 .flow-step::before {
   content: attr(data-n); position: absolute; left: 0; top: 0;
   width: 30px; height: 30px; border-radius: 50%;
-  background: var(--bg-deep); color: var(--accent-bright);
+  background: var(--accent-2); color: var(--text-on-accent);
   font-family: var(--f-clean); font-size: 14px; line-height: 30px; text-align: center;
 }
 .flow-step::after {
@@ -1052,32 +1102,32 @@ footer {
 .area-note {
   position: relative; margin-top: 24px; padding-top: 22px;
   border-top: 1px solid rgba(var(--paper-rgb), .14);
-  font-size: 13.5px; color: rgba(var(--paper-rgb), .62); line-height: 1.8;
+  font-size: 13.5px; color: var(--text-muted); line-height: 1.8;
 }
 .area-note strong { color: var(--accent-bright); font-weight: 700; }
 
 /* ══ 캠프 카드 — 세션 날짜 ══ */
 .camp-dates { list-style: none; margin: 0 0 22px; }
 .camp-dates li {
-  font-size: 13px; color: rgba(var(--paper-rgb), .66); line-height: 1.9;
+  font-size: 13px; color: var(--text); line-height: 1.9;
   padding-left: 13px; position: relative;
 }
 .camp-dates li::before {
   content: ''; position: absolute; left: 0; top: 12px;
-  width: 5px; height: 5px; border-radius: 50%; background: var(--accent-bright);
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent-2);
 }
 .camp-dates li strong { color: var(--text-invert); font-weight: 700; }
 
 /* ══ 3대 시그니처 (왜 AKC인가 상단) ══ */
 .sig-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 76px; }
 .sig-card {
-  background: var(--bg-deep); border-radius: 16px; padding: 38px 32px;
+  background: var(--bg-card); border-radius: 16px; padding: 38px 32px;
   border: 1px solid rgba(var(--accent-2-rgb), .22); transition: transform .25s, box-shadow .25s;
 }
-.sig-card:hover { transform: translateY(-6px); box-shadow: 0 22px 52px rgba(var(--ink-rgb), .22); }
-.sig-no { font-family: var(--f-eng); font-size: 20px; letter-spacing: 3px; color: var(--accent-bright); margin-bottom: 14px; }
+.sig-card:hover { transform: translateY(-6px); box-shadow: 0 22px 52px rgba(var(--shade-rgb), 0.5); }
+.sig-no { font-family: var(--f-eng); font-size: 20px; letter-spacing: 3px; color: var(--accent-2); margin-bottom: 14px; }
 .sig-name { font-family: var(--f-clean); font-size: 23px; color: var(--text-invert); line-height: 1.3; margin-bottom: 12px; }
-.sig-desc { font-size: 14px; color: rgba(var(--paper-rgb), .6); line-height: 1.8; font-weight: 300; }
+.sig-desc { font-size: 14px; color: var(--text-muted); line-height: 1.8; font-weight: 300; }
 .why-more {
   font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
   color: var(--accent); font-weight: 700; margin-bottom: 28px;
@@ -1096,7 +1146,7 @@ footer {
 .ph-box.top { justify-content: flex-start; padding-top: 52px; }
 .ph-box.on-navy {
   background: rgba(var(--paper-rgb), .04); border-color: rgba(var(--paper-rgb), .2);
-  color: rgba(var(--paper-rgb), .45);
+  color: var(--text-dim);
 }
 
 /* ══ 참가자 후기 플레이스홀더 (신규 후기·인터뷰 영상 대기) ══ */
@@ -1106,7 +1156,7 @@ footer {
   border-radius: 14px; padding: 76px 40px;
 }
 .testi-ph-ttl { font-family: var(--f-clean); font-size: clamp(20px,2.4vw,28px); color: var(--text-invert); line-height: 1.4; margin-bottom: 14px; }
-.testi-ph-txt { font-size: 14px; color: rgba(var(--paper-rgb), .5); line-height: 1.9; max-width: 580px; margin: 0 auto; }
+.testi-ph-txt { font-size: 14px; color: var(--text-muted); line-height: 1.9; max-width: 580px; margin: 0 auto; }
 
 /* ══ 새 섹션 반응형 ══ */
 @media (max-width:900px) {
@@ -1299,7 +1349,7 @@ footer {
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw-hQRiYQSngYSwPZXHMdPPTn7tZDnzNvz-u6COz5mJr9aYQ/viewform" target="_blank" rel="noopener" class="nav-reg" onclick="closeMobile()">등록하기 →</a>
 </div>
 
-<section class="hero">
+<section class="hero tone-hot">
   <div class="hero-img"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
@@ -1333,7 +1383,7 @@ footer {
   </div>
 </section>
 
-<div class="marquee-bar">
+<div class="marquee-bar tone-hot">
   <div class="marquee-inner">
     <span>ARISE KOREA CAMP</span><span class="sep">✦</span><span>REBUILD</span><span class="sep">✦</span>
     <span>2027 WINTER</span><span class="sep">✦</span><span>5차 캠프</span><span class="sep">✦</span>
@@ -1350,14 +1400,14 @@ footer {
 
 <!-- ⏸ PENDING: 실제 참가 인원이 확정되면 이 밴드에 칸을 추가하세요.
      (칸 수를 바꿀 때는 CSS의 .stats-band grid-template-columns 도 함께 수정) -->
-<div class="stats-band">
+<div class="stats-band tone-hot">
   <div class="stat-cell reveal"><span class="stat-n">5<span>차</span></span><div class="stat-l">누적 캠프 회차</div></div>
   <div class="stat-cell reveal" style="transition-delay:.08s"><span class="stat-n">3<span>개</span></span><div class="stat-l">이번 겨울 세션</div></div>
   <div class="stat-cell reveal" style="transition-delay:.16s"><span class="stat-n">2박<span>3일</span></span><div class="stat-l">집중 캠프</div></div>
 </div>
 
 <!-- ── AKC 소개 · 캠프 정체성 (캠프보다 캠프 이후 · 킹덤 3방향성) ── -->
-<section class="identity-section" id="about">
+<section class="identity-section tone-hot" id="about">
   <div class="identity-inner">
     <div class="reveal">
       <div class="vision-eye">About AKC · 캠프 정체성</div>
@@ -1381,7 +1431,7 @@ footer {
   </div>
 </section>
 
-<div class="intro-wrap" id="theme">
+<div class="intro-wrap tone-hot" id="theme">
   <div class="reveal">
     <div class="intro-eyebrow">2027 Winter · 이번 겨울 캠프</div>
     <!-- REBUILD은 한 시즌에 국한된 구호가 아니라 계속 이어가는 시즌 테마이므로
@@ -1420,7 +1470,7 @@ footer {
   </div>
 </div>
 
-<section class="camps-section" id="camp">
+<section class="camps-section tone-hot" id="camp">
   <div class="camps-header reveal">
     <div class="camps-title">우리의 <em>캠프</em></div>
     <div class="camps-desc">청소년과 청년, 각자에게 맞는 집중 프로그램으로 운영됩니다. 이번 겨울은 3개 세션입니다.</div>
@@ -1487,8 +1537,10 @@ footer {
   </div>
 </section>
 
+<div class="tone-break" aria-hidden="true"></div>
+
 <!-- ── 강사 안내 ── -->
-<section class="speakers-section" id="speakers">
+<section class="speakers-section tone-calm" id="speakers">
   <div class="speakers-inner">
     <div class="speakers-head reveal">
       <div class="speakers-eye">Speakers · 강사 안내</div>
@@ -1504,7 +1556,9 @@ footer {
   </div>
 </section>
 
-<section class="why-section" id="why">
+<div class="tone-break" aria-hidden="true"></div>
+
+<section class="why-section tone-hot" id="why">
   <div class="why-top reveal">
     <div class="why-ttl">왜 <em>AKC</em>인가</div>
     <div class="why-sub">킹덤 프로듀서 · 킹덤 빌더 · 킹덤 어라이저를<br>세우는 세 가지 시그니처</div>
@@ -1554,7 +1608,7 @@ footer {
      </div>
 -->
 
-<div class="gallery-wrap" id="gallery">
+<div class="gallery-wrap tone-hot" id="gallery">
   <div class="gallery-head reveal">
     <div class="gallery-ttl">캠프의<br><em>순간들</em></div>
     <div class="gallery-hint">← drag →</div>
@@ -1578,7 +1632,7 @@ footer {
   </div>
 </div>
 
-<div class="sched-section" id="schedule">
+<div class="sched-section tone-hot" id="schedule">
   <div class="sl reveal">
     <div class="sl-eye">Schedule · 2027 Winter</div>
     <div class="sl-ttl">2027<br>겨울<br>캠프<br>일정</div>
@@ -1597,7 +1651,7 @@ footer {
 </div>
 
 <!-- ── 앱 소개 ── -->
-<section class="app-section" id="app">
+<section class="app-section tone-hot" id="app">
   <div class="app-inner">
     <div class="app-head reveal">
       <div class="app-eye">App · 스마트처치</div>
@@ -1612,7 +1666,9 @@ footer {
   </div>
 </section>
 
-<section class="testi-section" id="testimonials">
+<div class="tone-break" aria-hidden="true"></div>
+
+<section class="testi-section tone-calm" id="testimonials">
   <div class="testi-ttl reveal">참가자들의<br><em>진짜 이야기</em></div>
   <!-- ⏸ PENDING: 실제 참가자 후기·인터뷰 영상이 도착하면 아래 .testi-ph 를 지우고
        .tc 카드로 채우세요. 카드 템플릿:
@@ -1630,7 +1686,7 @@ footer {
   </div>
 </section>
 
-<div class="loc-section" id="location">
+<div class="loc-section tone-calm" id="location">
   <div class="reveal">
     <div class="loc-eye">Location · 캠프 장소</div>
     <div class="loc-ttl">태안<br>수양원</div>
@@ -1653,7 +1709,7 @@ footer {
   </div>
 </div>
 
-<div class="faq-wrap" id="faq">
+<div class="faq-wrap tone-calm" id="faq">
   <div class="faq-inner">
     <div class="faq-ttl reveal">자주 묻는<br><em>질문</em></div>
     <!-- ⏸ PENDING: 청소년/청년 통합 진행 여부가 확정되면 이 답변을 업데이트하세요. -->
@@ -1667,7 +1723,9 @@ footer {
   </div>
 </div>
 
-<div class="cta-section" id="register">
+<div class="tone-break" aria-hidden="true"></div>
+
+<div class="cta-section tone-hot" id="register">
   <div class="cta-bg"></div>
   <div class="cta-overlay"></div>
   <div class="cta-inner reveal">
@@ -1682,7 +1740,9 @@ footer {
   </div>
 </div>
 
-<footer>
+<div class="tone-break" aria-hidden="true"></div>
+
+<footer class="tone-calm">
   <div>
     <span class="f-logo">AKC</span>
     <p class="f-desc">Arise Korea Camp · 2027 Winter · 5차 캠프<br>2027. 1. 13 ~ 1. 22 · 태안 수양원<br>"무너진 땅에, 새로운 세대를" — 예레미야 31:4</p>
@@ -1691,7 +1751,7 @@ footer {
   <div><div class="f-col-ttl">정보</div><ul class="f-links"><li><a href="#gallery">갤러리</a></li><li><a href="#faq">FAQ</a></li><li><a href="#register">등록하기</a></li></ul></div>
   <div><div class="f-col-ttl">문의</div><ul class="f-links"><li><a href="mailto:AriseKoreaCamp@gmail.com">이메일 문의</a></li><li><a href="https://www.instagram.com/arisekoreacamp/" target="_blank" rel="noopener">Instagram</a></li><li><a href="#">카카오톡</a></li></ul></div>
 </footer>
-<div class="f-bottom">
+<div class="f-bottom tone-calm">
   <span>© 2027 Arise Korea Camp. All rights reserved.</span>
   <span>문의 · AriseKoreaCamp@gmail.com</span>
 </div>
