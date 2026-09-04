@@ -542,7 +542,7 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   background-size: cover; background-position: center;
   border-radius: 12px; box-shadow: 0 24px 60px rgba(var(--shade-rgb), 0.45);
 }
-.photo-accent {
+.photo-accent { background-size: contain; background-repeat: no-repeat; background-position: center;
   position: absolute; bottom: 0; left: 0;
   width: 58%; height: 52%;
   background-size: cover; background-position: center;
@@ -905,11 +905,11 @@ nav.scrolled { box-shadow: var(--shadow-nav); }
   box-shadow: 0 24px 60px rgba(var(--shade-rgb), 0.45);
 }
 .loc-photo-img {
-  width: 100%; height: 100%;
-  /* 🖼 IMAGE: 태안 수양원 사진 확보 후 background-image 로 지정하세요 */
+  position: relative; width: 100%; height: 100%;
   background-size: cover; background-position: center;
   transition: transform 0.6s ease;
 }
+.loc-photo-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .loc-photo:hover .loc-photo-img { transform: scale(1.04); }
 .loc-photo-badge {
   position: absolute; bottom: 24px; left: 24px;
@@ -1315,6 +1315,50 @@ footer {
   .f-bottom { padding: 16px 24px; flex-direction: column; gap: 6px; }
 }
 
+/* ══ 지난 캠프 아카이브 ═══════════════════════════════════════════════
+   지금까지 어떤 캠프를 했는지 포스터로 보여주는 구간입니다.
+   회차가 늘어나면 .past-card 를 하나 더 넣기만 하면 됩니다. */
+.past-section { background: var(--bg-page); padding: 120px 64px; }
+.past-inner { max-width: 1140px; margin: 0 auto; }
+.past-head { margin-bottom: 56px; max-width: 760px; }
+.past-eye {
+  font-size: var(--fs-2xs); letter-spacing: 5px; text-transform: uppercase;
+  color: var(--accent); font-weight: 600; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.past-eye::before { content: ''; width: 24px; height: 2px; background: var(--accent); }
+.past-ttl {
+  font-family: var(--f-display); font-size: var(--fs-3);
+  color: var(--text-strong); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 18px;
+}
+.past-ttl em { font-style: normal; color: var(--accent); }
+.past-sub { font-size: var(--fs-lead); color: var(--text-muted); line-height: 1.85; }
+.past-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.past-card {
+  background: var(--bg-card); border: 1px solid var(--border-on-dark);
+  border-radius: 14px; overflow: hidden; transition: transform .25s, box-shadow .25s;
+}
+.past-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
+.past-poster {
+  position: relative; aspect-ratio: 3 / 4; background: var(--bg-soft);
+  display: flex; align-items: center; justify-content: center;
+}
+.past-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.past-body { padding: 18px 20px 22px; }
+.past-no {
+  font-size: var(--fs-2xs); letter-spacing: 2px; color: var(--accent-2);
+  font-weight: 700; margin-bottom: 8px;
+}
+.past-desc { font-size: var(--fs-sm); color: var(--text-muted); line-height: 1.75; }
+@media (max-width: 900px) {
+  .past-section { padding: 72px 24px; }
+  .past-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+@media (max-width: 560px) {
+  .past-grid { grid-template-columns: 1fr; }
+  .past-poster { aspect-ratio: 4 / 3; }
+}
+
 /* ══ 움직임 최소화 설정 존중 ═══════════════════════════════════════════
    OS/브라우저에서 "동작 줄이기"를 켠 사용자에게는 애니메이션을 끕니다.
    최종 상태(보임)로 즉시 고정되므로 내용이 사라지지 않습니다. */
@@ -1362,14 +1406,21 @@ footer {
         2. 참가 인원 등 통계 수치     → 통계 밴드
         3. 신규 참가자 후기·인터뷰    → #testimonials
 
-     ▣ 🖼 IMAGE — 이미지 도착 후 교체할 자리 (아래 주석 마커로 위치 표시)
-        1. 강사진        → #speakers (speakers.png)
-        2. 일정표        → #schedule (schedule.png)
-        3. 갤러리 14장   → #gallery   (photos/gallery/*.jpg)
-        4. 캠프 소개 사진 → #theme    (photos/about-main.jpg, about-accent.jpg)
-        5. 캠프 카드 사진 → #camp     (photos/camp-youth.jpg, camp-young.jpg)
-        6. 태안 수양원 사진·주소·교통 → #location
-        7. CTA 배경      → photos/bg/cta.jpg
+     ▣ 🖼 IMAGE — 넣을 파일과 자리 (파일을 두면 플레이스홀더가 자동으로 사라집니다)
+        · 히어로 배경     → assets/hero.jpg
+        · 메인 사진       → photos/about-main.jpg   (#theme 큰 틀)
+        · 5차 캠프 포스터  → photos/poster.jpg       (#theme 작은 틀)
+        · 청소년 캠프 카드 → photos/camp-youth.jpg
+        · 청년 캠프 카드   → photos/camp-young.jpg
+        · 태안 수양원      → photos/location.jpg     (+ 주소·교통 문구)
+        · CTA 배경        → photos/bg/cta.jpg
+        · 강사진          → speakers.png
+        · 일정표          → schedule.png
+        · 갤러리 14장     → photos/gallery/ 아래
+            worship-1~4 / word-1~2 / prayer-1 / small-group-1
+            booth-1~2 / outdoor-1~2 / seminar-1 / community-1
+          ※ 체육대회는 진행하지 않으므로 해당 항목을 없애고
+            부스 프로그램 · 야외 활동 · 조별 나눔 · 공동체로 바꿨습니다.
 
      ▣ 색상 — 네이비+골드 유지 (포스터 색감 비비드옐로우+민트그린+차콜 반영은 별도 단계)
      ══════════════════════════════════════════════════════════════════════════ -->
@@ -1391,6 +1442,7 @@ footer {
         <a href="#about">AKC 소개</a>
         <a href="#why">왜 AKC인가</a>
         <a href="#gallery">캠프 갤러리</a>
+        <a href="#past">지난 캠프</a>
       </div>
     </div>
 
@@ -1430,6 +1482,7 @@ footer {
       <div class="nav-drop">
         <a href="#testimonials">참가 후기</a>
         <a href="#gallery">갤러리</a>
+        <a href="#past">지난 캠프</a>
       </div>
     </div>
 
@@ -1488,6 +1541,7 @@ footer {
   </div>
   <a href="#app" onclick="closeMobile()">앱 소개</a>
   <a href="#testimonials" onclick="closeMobile()">참가 후기</a>
+  <a href="#past" onclick="closeMobile()">지난 캠프</a>
   <a href="#faq" onclick="closeMobile()">FAQ</a>
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw-hQRiYQSngYSwPZXHMdPPTn7tZDnzNvz-u6COz5mJr9aYQ/viewform" target="_blank" rel="noopener" class="nav-reg" onclick="closeMobile()">등록하기 →</a>
 </div>
@@ -1602,12 +1656,13 @@ footer {
     <a href="#camp" class="btn-primary">캠프 살펴보기 →</a>
   </div>
   <div class="reveal" style="transition-delay:.12s">
-    <!-- 🖼 IMAGE: 캠프 소개 사진 2장. 파일을 넣은 뒤 각 div 에
-         style="background-image:url('photos/about-main.jpg');" 형태로 지정하고
+    <!-- 🖼 IMAGE: 큰 틀 = 5차 겨울캠프 메인 사진 (photos/about-main.jpg)
+                    작은 틀 = 5차 캠프 포스터      (photos/poster.jpg)
+         파일을 넣은 뒤 각 div 에 style="background-image:url('...');" 를 지정하고
          안쪽 .ph-box 를 삭제하세요. -->
     <div class="intro-photo-stack">
       <div class="photo-main"><div class="ph-box top"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>캠프 소개 메인 사진<br>photos/about-main.jpg</div></div>
-      <div class="photo-accent"><div class="ph-box"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>보조 사진<br>photos/about-accent.jpg</div></div>
+      <div class="photo-accent"><div class="ph-box"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b><strong>5차 캠프 포스터</strong><br>photos/poster.jpg</div></div>
       <div class="photo-badge"><span>5차</span>2027 겨울 캠프</div>
     </div>
   </div>
@@ -1758,22 +1813,86 @@ footer {
   </div>
   <!-- 🖼 IMAGE: photos/gallery/ 폴더에 사진을 넣으면 플레이스홀더가 자동으로 사라집니다 -->
   <div class="hscroll" id="hscroll">
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-4.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-3.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>체육대회</div><img src="photos/gallery/sports-1.jpg" alt="체육대회" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">체육대회</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-1.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>체육대회</div><img src="photos/gallery/sports-2.jpg" alt="체육대회" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">체육대회</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-1.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>기도</div><img src="photos/gallery/worship-5.jpg" alt="기도" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">기도</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>체육대회</div><img src="photos/gallery/sports-3.jpg" alt="체육대회" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">체육대회</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>소그룹</div><img src="photos/gallery/word-2.jpg" alt="소그룹" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">소그룹</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-2.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>체육대회</div><img src="photos/gallery/sports-4.jpg" alt="체육대회" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">체육대회</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-3.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>세미나</div><img src="photos/gallery/word-4.jpg" alt="세미나" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">세미나</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-6.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-1.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-1.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>부스 프로그램</div><img src="photos/gallery/booth-1.jpg" alt="부스 프로그램" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">부스 프로그램</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-2.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>야외 활동</div><img src="photos/gallery/outdoor-1.jpg" alt="야외 활동" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">야외 활동</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-2.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>기도</div><img src="photos/gallery/prayer-1.jpg" alt="기도" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">기도</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>부스 프로그램</div><img src="photos/gallery/booth-2.jpg" alt="부스 프로그램" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">부스 프로그램</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>조별 나눔</div><img src="photos/gallery/small-group-1.jpg" alt="조별 나눔" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">조별 나눔</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-3.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>야외 활동</div><img src="photos/gallery/outdoor-2.jpg" alt="야외 활동" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">야외 활동</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-4.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>세미나</div><img src="photos/gallery/seminar-1.jpg" alt="세미나" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">세미나</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>공동체</div><img src="photos/gallery/community-1.jpg" alt="공동체" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">공동체</div></div>
   </div>
 </div>
+
+<div class="tone-break" aria-hidden="true"></div>
+
+<!-- ── 지난 캠프 아카이브 ──────────────────────────────────────────────
+     ⏸ PENDING: 포스터 이미지(photos/past/*.jpg)와 회차별 설명 대기.
+     ※ 실제로 진행한 캠프는 영성캠프 3회 + 영역캠프 1회 = 4회이며,
+       이번 겨울이 5번째입니다. 포스터에 "4차"로 표기된 것이 있어도
+       여기 카드 구성은 실제 진행 기준입니다.
+     ※ 회차 순서·대상 표기는 확인 후 .past-no 를 고쳐주세요. -->
+<section class="past-section tone-hot" id="past">
+  <div class="past-inner">
+    <div class="past-head reveal">
+      <div class="past-eye">Archive · 지난 캠프</div>
+      <div class="past-ttl">지금까지 <em>이렇게</em> 모였습니다</div>
+      <p class="past-sub">AKC는 지금까지 네 번의 캠프를 진행했습니다. 영성캠프 세 번과 영역캠프 한 번, 그리고 이번 겨울이 다섯 번째입니다.</p>
+    </div>
+    <div class="past-grid">
+      <article class="past-card reveal">
+        <div class="past-poster">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>1차 · 영성캠프 포스터<br>photos/past/past-1.jpg</div>
+          <img src="photos/past/past-1.jpg" alt="1차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+        </div>
+        <div class="past-body">
+          <div class="past-no">1차 · 영성캠프</div>
+          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
+          <div class="past-desc">설명 준비 중</div>
+        </div>
+      </article>
+      <article class="past-card reveal">
+        <div class="past-poster">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>2차 · 영성캠프 포스터<br>photos/past/past-2.jpg</div>
+          <img src="photos/past/past-2.jpg" alt="2차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+        </div>
+        <div class="past-body">
+          <div class="past-no">2차 · 영성캠프</div>
+          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
+          <div class="past-desc">설명 준비 중</div>
+        </div>
+      </article>
+      <article class="past-card reveal">
+        <div class="past-poster">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>3차 · 영성캠프 포스터<br>photos/past/past-3.jpg</div>
+          <img src="photos/past/past-3.jpg" alt="3차 · 영성캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+        </div>
+        <div class="past-body">
+          <div class="past-no">3차 · 영성캠프</div>
+          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
+          <div class="past-desc">설명 준비 중</div>
+        </div>
+      </article>
+      <article class="past-card reveal">
+        <div class="past-poster">
+          <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>영역캠프 포스터<br>photos/past/past-area.jpg</div>
+          <img src="photos/past/past-area.jpg" alt="영역캠프 포스터" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+        </div>
+        <div class="past-body">
+          <div class="past-no">영역캠프</div>
+          <!-- ⏸ PENDING: 회차별 한 줄 설명 (기간·대상 등) 확정 후 채워주세요 -->
+          <div class="past-desc">설명 준비 중</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
 
 <div class="sched-section tone-hot" id="schedule">
   <div class="sl reveal">
@@ -1845,9 +1964,11 @@ footer {
     -->
   </div>
   <div class="loc-photo reveal" style="transition-delay:.12s">
-    <!-- 🖼 IMAGE: 태안 수양원 사진. 파일을 넣은 뒤 .loc-photo-img 에
-         style="background-image:url('photos/location.jpg');" 를 지정하고 안쪽 .ph-box 를 삭제하세요. -->
-    <div class="loc-photo-img"><div class="ph-box"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>태안 수양원 사진을<br>여기에 넣어주세요</div></div>
+    <!-- 🖼 IMAGE: photos/location.jpg 를 넣으면 플레이스홀더가 자동으로 사라집니다 -->
+    <div class="loc-photo-img">
+      <div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>태안 수양원 사진<br>photos/location.jpg</div>
+      <img src="photos/location.jpg" alt="태안 수양원" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';">
+    </div>
     <div class="loc-photo-badge"><strong><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 20.5h17"/><path d="M4.5 20.5V9.2L12 4.5l7.5 4.7v11.3"/><path d="M9.5 20.5v-5.2h5v5.2"/><path d="M9.5 11.2h5"/></svg> 태안 수양원</strong><span>자체 운영 시설 · 2박 3일 집중 캠프</span></div>
   </div>
 </div>
