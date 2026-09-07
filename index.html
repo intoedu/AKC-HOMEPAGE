@@ -1248,7 +1248,9 @@ footer {
   color: var(--text-dim);
 }
 
-/* ══ 참가자 후기 플레이스홀더 (신규 후기·인터뷰 영상 대기) ══ */
+/* ══ 참가자 후기 플레이스홀더 ══
+   실제 후기가 들어가서 현재 쓰이지 않습니다. 인터뷰 영상 자리 등에
+   다시 쓸 수 있으므로 지우지 않고 남겨 둡니다. */
 .testi-ph {
   grid-column: 1 / -1; text-align: center;
   background: rgba(var(--paper-rgb), .03); border: 1.5px dashed rgba(var(--paper-rgb), .16);
@@ -1993,18 +1995,35 @@ footer {
 
 <section class="testi-section tone-calm" id="testimonials">
   <div class="testi-ttl reveal">참가자들의<br><em>진짜 이야기</em></div>
-  <!-- ⏸ PENDING: 실제 참가자 후기·인터뷰 영상이 도착하면 아래 .testi-ph 를 지우고
-       .tc 카드로 채우세요. 카드 템플릿:
-       <div class="tc reveal">
-         <div class="tc-q">"</div>
-         <div class="tc-text">후기 본문</div>
-         <div class="tc-who"><strong>이름</strong> — 참가 구분</div>
-       </div>
-       (첫 카드에 class="tc big" 을 주면 2칸 폭으로 크게 표시됩니다) -->
+  <!-- 실제 참가자 후기입니다. 본인 확인을 거친 글만 싣고, 이름은 가운데 글자를
+       가린 형태로만 적습니다. 나이·소속·학교는 쓰지 않습니다.
+       후기를 더할 때는 아래 .tc 카드를 그대로 복사해 쓰세요.
+       카드가 홀수가 되면 마지막 카드에 class="tc big" 을 주면 2칸 폭이 됩니다.
+       ⏸ 인터뷰 영상은 준비되는 대로 이 아래에 붙입니다. -->
   <div class="testi-grid">
-    <div class="testi-ph reveal">
-      <div class="testi-ph-ttl">참가자들의 이야기는<br>곧 채워질 예정입니다</div>
-      <div class="testi-ph-txt">실제 참가자들의 후기와 인터뷰 영상을 준비하고 있습니다.<br>정리되는 대로 이 자리에 그대로 담겠습니다.</div>
+    <div class="tc reveal">
+      <div class="tc-q" aria-hidden="true">&ldquo;</div>
+      <div class="tc-text">캠프에서 가장 기억에 남는 시간은 강사님들의 간증과 설교 시간이었습니다. 평소 저의 롤모델이기도 한 강사님들의 말씀을 오랜만에 가까이서 듣게 되었는데, 그 말씀 하나하나가 마음 깊이 와닿았습니다. 말씀을 들으며 제 안에 있던 죄성을 돌아보게 되었고, 미처 알지 못했던 것들을 새롭게 배우는 귀한 시간이었습니다.</div>
+      <div class="tc-text">이번 캠프를 통해 이제는 정말 정신을 차리고, 하나님의 마음에 합한 자로 살아가고 싶다는 결단을 하게 되었습니다. 앞으로는 한국에 부흥을 일으키는 리더로 쓰임받는 삶을 살아가기를 소망합니다.</div>
+      <div class="tc-who"><strong>이O국</strong> — 지난 캠프 참가자</div>
+    </div>
+    <div class="tc reveal">
+      <div class="tc-q" aria-hidden="true">&ldquo;</div>
+      <div class="tc-text">저에게는 캠프 둘째 날 있었던 집회와 은혜 나눔 시간이 가장 기억에 남습니다. 그 시간을 통해 하나님의 말씀에 순종하는 리더로 살아가겠다고 다짐할 수 있었습니다. 또한 나 자신만을 위해 기도하는 것에 머물지 않고, 자리를 옮겨 다니며 서로를 위해 기도하고 축복해줄 수 있어서 참 좋았습니다.</div>
+      <div class="tc-text">그 시간 하나님께서는 저에게 나의 생각이 아닌 하나님의 생각을, 나의 계획이 아닌 하나님의 계획을 따라가라는 마음을 주셨습니다. 앞으로는 하나님의 말씀 앞에 순종하는 리더, 주님 앞에 겸손히 무릎 꿇는 리더로 살아가고 싶습니다. 나의 계획이 아닌 주님의 계획대로 살아가는 자가 되기를 다짐합니다.</div>
+      <div class="tc-who"><strong>원O언</strong> — 지난 캠프 참가자</div>
+    </div>
+    <div class="tc reveal">
+      <div class="tc-q" aria-hidden="true">&ldquo;</div>
+      <div class="tc-text">저는 캠프 첫째 날 강사님의 간증 시간이 가장 기억에 남습니다. 재미있으면서도 마음 깊이 감동이 있는 시간이었기 때문입니다. 더운 여름, 시원하게 물놀이를 했던 시간도 즐거운 추억으로 남았습니다.</div>
+      <div class="tc-text">이번 캠프에서 저는 팀 리더를 맡게 되었는데, 그 역할을 감당하며 많은 생각을 하게 되었고 저 자신을 돌아보는 소중한 시간이 되었습니다. 캠프 안에서만 은혜를 누리는 것이 아니라, 캠프를 마친 이후에도 매일매일 하나님을 경외하며 한 걸음 한 걸음 하나님께 더 가까이 나아가는 삶을 살아가겠습니다.</div>
+      <div class="tc-who"><strong>송O영</strong> — 지난 캠프 참가자</div>
+    </div>
+    <div class="tc reveal">
+      <div class="tc-q" aria-hidden="true">&ldquo;</div>
+      <div class="tc-text">이번 캠프를 통해 참 많은 것을 느끼고 깨달았습니다. 저녁 집회 시간, 선교사님들과 강사님들의 설교와 간증을 들으며 다들 저마다의 아픔이 있었다는 것을 알게 되었습니다. 그 아픔을 혼자서 해결해보려 애썼지만, 결국에는 그 모든 것을 하나님께 온전히 내려놓으신 그분들의 모습을 보며 &lsquo;어떻게 저렇게 하나님 앞에 나아갈 수 있을까&rsquo;라는 생각이 많이 들었습니다.</div>
+      <div class="tc-text">저에게도 아직 해결하지 못한 아픔이 있습니다. 하지만 이제는 그것을 저 혼자만의 힘으로 해결하려 하기보다, 하나님 앞에 제 죄성과 아픔을 솔직히 인정하고 하나님께 힘을 구하며 나아가야겠다는 다짐을 하게 된 소중한 시간이었습니다. 앞으로 리더로서 힘들어하는 이들을 만날 때, 먼저 다가가 손을 내밀어줄 수 있는 사람이 되기를 다짐합니다.</div>
+      <div class="tc-who"><strong>김O훈</strong> — 지난 캠프 참가자</div>
     </div>
   </div>
 </section>
