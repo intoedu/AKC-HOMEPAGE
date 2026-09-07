@@ -1335,6 +1335,31 @@ footer {
   .f-bottom { padding: 16px 24px; flex-direction: column; gap: 6px; }
 }
 
+/* ══ 공지 배너 ═══════════════════════════════════════════════════════
+   회차마다 달라지는 중요한 안내를 눈에 띄게 알리는 자리입니다. */
+.notice {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--surface-accent-soft);
+  border: 1px solid var(--border-accent);
+  border-left: 3px solid var(--accent);
+  border-radius: 12px; padding: 22px 26px; margin-bottom: 40px;
+}
+.notice-mark {
+  flex-shrink: 0; font-size: var(--fs-2xs); font-weight: 700; letter-spacing: 2px;
+  color: var(--text-on-accent); background: var(--accent);
+  padding: 5px 10px; border-radius: 6px; margin-top: 2px;
+}
+.notice-body { flex: 1; }
+.notice-ttl em { font-style: normal; color: var(--accent); }
+.notice-ttl {
+  font-family: var(--f-display); font-size: var(--fs-5);
+  color: var(--text-strong); line-height: 1.35; margin-bottom: 8px;
+}
+.notice-txt { font-size: var(--fs-body); color: var(--text-muted); line-height: 1.8; }
+@media (max-width: 560px) {
+  .notice { flex-direction: column; gap: 12px; padding: 20px; }
+}
+
 /* ══ 지난 캠프 아카이브 ═══════════════════════════════════════════════
    지금까지 어떤 캠프를 했는지 포스터로 보여주는 구간입니다.
    회차가 늘어나면 .past-card 를 하나 더 넣기만 하면 됩니다. */
@@ -1451,9 +1476,9 @@ footer {
                        예) 청소년 공동체 / 하루짜리 소개 캠프
 
      ▣ ⏸ PENDING — 확정 후 반영할 항목 (아래 주석 마커로 위치 표시)
-        1. 청소년/청년 통합 진행 여부 → #camp 카드 2장, #faq
-        2. 참가 인원 등 통계 수치     → 통계 밴드
-        3. 신규 참가자 후기·인터뷰    → #testimonials
+        1. 참가 인원 등 통계 수치     → 통계 밴드
+        2. 신규 참가자 후기·인터뷰    → #testimonials
+        ※ 청소년/청년 통합 진행은 확정되었습니다 (#camp 공지 배너, #faq 반영)
 
      ▣ 🖼 IMAGE — 넣을 파일과 자리 (파일을 두면 플레이스홀더가 자동으로 사라집니다)
         · 히어로 배경     → assets/hero.jpg
@@ -1720,7 +1745,16 @@ footer {
 <section class="camps-section tone-hot" id="camp">
   <div class="camps-header reveal">
     <div class="camps-title">우리의 <em>캠프</em></div>
-    <div class="camps-desc">청소년과 청년, 각자에게 맞는 집중 프로그램으로 운영됩니다. 이번 겨울은 3개 세션입니다.</div>
+    <div class="camps-desc">이번 겨울은 청소년과 청년이 함께, 3개 세션으로 운영됩니다.</div>
+  </div>
+
+  <!-- 회차별 중요 공지. 다음 회차에 내용이 달라지면 이 블록만 고치면 됩니다. -->
+  <div class="notice reveal">
+    <div class="notice-mark">공지</div>
+    <div class="notice-body">
+      <div class="notice-ttl">이번 5차 캠프는 청소년과 청년이 <em>함께</em> 진행됩니다</div>
+      <div class="notice-txt">지난 캠프까지는 청소년과 청년 차수를 나누어 운영했지만, 이번 2027 겨울 5차 캠프는 중·고등학생부터 대학생·직장인 청년까지 한자리에서 함께 모입니다. 세 개 세션 모두 동일하게 진행되며, 원하시는 날짜를 선택해 신청하시면 됩니다.</div>
+    </div>
   </div>
   <div class="area-banner reveal">
     <div class="area-eye">✦ 영역캠프 비전선포</div>
@@ -1743,9 +1777,9 @@ footer {
       <strong>이번 겨울 5차 캠프는 영성캠프로 진행됩니다.</strong>
     </div>
   </div>
-  <!-- ⏸ PENDING: 청소년/청년 통합 진행 여부가 논의 중입니다. 통합이 확정되면
-       아래 두 카드를 하나로 병합하고, .camps-grid 를 1열로 바꾸세요.
-       현재는 분리 구조를 유지합니다. 세션 날짜는 두 카드가 동일합니다. -->
+  <!-- 이번 회차는 청소년·청년 통합 진행이 확정되었습니다.
+       두 카드는 "대상별 안내" 역할로 남겨두고, 통합 사실은 위 공지 배너와
+       각 카드의 안내 문구로 전달합니다. 세션 날짜는 두 카드가 동일합니다. -->
   <div class="camps-grid">
     <div class="camp-card reveal">
       <div class="camp-card-img camp-img-youth"></div>
@@ -1758,7 +1792,7 @@ footer {
           <li><strong>2차</strong> 2027. 1. 17(일) ~ 19(화)</li>
           <li><strong>3차</strong> 2027. 1. 20(수) ~ 22(금)</li>
         </ul>
-        <div class="camp-info">중·고등학생을 위한 2박 3일 영성캠프. 말씀과 예배, 체험형 부스 프로그램과 조별 나눔 안에서 자신의 자리와 방향을 새롭게 발견하는 여정.</div>
+        <div class="camp-info">중·고등학생을 위한 2박 3일 영성캠프. 말씀과 예배, 체험형 부스 프로그램과 조별 나눔 안에서 자신의 자리와 방향을 새롭게 발견하는 여정. 이번 회차는 청년과 함께 진행됩니다.</div>
         <div class="camp-pills"><span class="camp-pill">중·고등학생</span><span class="camp-pill">2박 3일</span><span class="camp-pill">1·2·3차</span><span class="camp-pill">90,000원</span></div>
         <a href="#schedule" class="camp-cta">일정 보기 →</a>
       </div>
@@ -1774,7 +1808,7 @@ footer {
           <li><strong>2차</strong> 2027. 1. 17(일) ~ 19(화)</li>
           <li><strong>3차</strong> 2027. 1. 20(수) ~ 22(금)</li>
         </ul>
-        <div class="camp-info">대학생·직장인 청년을 위한 2박 3일 영성캠프. 뜨거운 찬양집회와 비전특강, 깊은 나눔을 통해 진로와 소명 앞에 선 청년들이 분명한 방향을 발견합니다.</div>
+        <div class="camp-info">대학생·직장인 청년을 위한 2박 3일 영성캠프. 뜨거운 찬양집회와 비전특강, 깊은 나눔을 통해 진로와 소명 앞에 선 청년들이 분명한 방향을 발견합니다. 이번 회차는 청소년과 함께 진행됩니다.</div>
         <div class="camp-pills"><span class="camp-pill">대학생 · 직장인</span><span class="camp-pill">2박 3일</span><span class="camp-pill">1·2·3차</span><span class="camp-pill">90,000원</span></div>
         <a href="#schedule" class="camp-cta">일정 보기 →</a>
       </div>
@@ -1860,20 +1894,13 @@ footer {
   </div>
   <!-- 🖼 IMAGE: photos/gallery/ 폴더에 사진을 넣으면 플레이스홀더가 자동으로 사라집니다 -->
   <div class="hscroll" id="hscroll">
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><picture><source type="image/webp" srcset="photos/gallery/worship-1-500.webp 500w, photos/gallery/worship-1-1000.webp 1000w" sizes="(max-width:900px) 270px, 340px"><source type="image/jpeg" srcset="photos/gallery/worship-1-500.jpg 500w, photos/gallery/worship-1-1000.jpg 1000w" sizes="(max-width:900px) 270px, 340px"><img src="photos/gallery/worship-1-1000.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.closest('picture').previousElementSibling.style.display='flex';"></picture><div class="hitem-cap">예배</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-1.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>부스 프로그램</div><img src="photos/gallery/booth-1.jpg" alt="부스 프로그램" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">부스 프로그램</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-2.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>야외 활동</div><picture><source type="image/webp" srcset="photos/gallery/outdoor-1-500.webp 500w, photos/gallery/outdoor-1-1000.webp 1000w" sizes="(max-width:900px) 270px, 340px"><source type="image/jpeg" srcset="photos/gallery/outdoor-1-500.jpg 500w, photos/gallery/outdoor-1-1000.jpg 1000w" sizes="(max-width:900px) 270px, 340px"><img src="photos/gallery/outdoor-1-1000.jpg" alt="야외 활동" loading="lazy" decoding="async" onerror="this.style.display='none';this.closest('picture').previousElementSibling.style.display='flex';"></picture><div class="hitem-cap">야외 활동</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word-2.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>기도</div><img src="photos/gallery/prayer-1.jpg" alt="기도" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">기도</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>부스 프로그램</div><img src="photos/gallery/booth-2.jpg" alt="부스 프로그램" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">부스 프로그램</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>조별 나눔</div><img src="photos/gallery/small-group-1.jpg" alt="조별 나눔" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">조별 나눔</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><img src="photos/gallery/worship-3.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">예배</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>야외 활동</div><img src="photos/gallery/outdoor-2.jpg" alt="야외 활동" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">야외 활동</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>찬양</div><img src="photos/gallery/worship-4.jpg" alt="찬양" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">찬양</div></div>
-    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>세미나</div><img src="photos/gallery/seminar-1.jpg" alt="세미나" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">세미나</div></div>
-    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>공동체</div><img src="photos/gallery/community-1.jpg" alt="공동체" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">공동체</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>예배</div><picture><source type="image/webp" srcset="photos/gallery/worship-500.webp 500w, photos/gallery/worship-1000.webp 1000w" sizes="(max-width:900px) 270px, 340px"><source type="image/jpeg" srcset="photos/gallery/worship-500.jpg 500w, photos/gallery/worship-1000.jpg 1000w" sizes="(max-width:900px) 270px, 340px"><img src="photos/gallery/worship-1000.jpg" alt="예배" loading="lazy" decoding="async" onerror="this.style.display='none';this.closest('picture').previousElementSibling.style.display='flex';"></picture><div class="hitem-cap">예배</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>말씀</div><img src="photos/gallery/word.jpg" alt="말씀" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">말씀</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>부스 프로그램</div><img src="photos/gallery/booth.jpg" alt="부스 프로그램" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">부스 프로그램</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>야외 활동</div><picture><source type="image/webp" srcset="photos/gallery/outdoor-500.webp 500w, photos/gallery/outdoor-1000.webp 1000w" sizes="(max-width:900px) 270px, 340px"><source type="image/jpeg" srcset="photos/gallery/outdoor-500.jpg 500w, photos/gallery/outdoor-1000.jpg 1000w" sizes="(max-width:900px) 270px, 340px"><img src="photos/gallery/outdoor-1000.jpg" alt="야외 활동" loading="lazy" decoding="async" onerror="this.style.display='none';this.closest('picture').previousElementSibling.style.display='flex';"></picture><div class="hitem-cap">야외 활동</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>기도</div><img src="photos/gallery/prayer.jpg" alt="기도" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">기도</div></div>
+    <div class="hitem t"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>조별 나눔</div><img src="photos/gallery/small-group.jpg" alt="조별 나눔" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">조별 나눔</div></div>
+    <div class="hitem w"><div class="ph-box" style="display:none;position:absolute;inset:0"><b><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="8.7" cy="10" r="1.7"/><path d="m4.5 17.5 4.8-4.6 3.5 3.3 2.9-2.5 3.8 3.8"/></svg></b>레크레이션</div><img src="photos/gallery/recreation.jpg" alt="레크레이션" loading="lazy" decoding="async" onerror="this.style.display='none';this.previousElementSibling.style.display='flex';"><div class="hitem-cap">레크레이션</div></div>
   </div>
 </div>
 
@@ -2008,8 +2035,7 @@ footer {
 <div class="faq-wrap tone-calm" id="faq">
   <div class="faq-inner">
     <div class="faq-ttl reveal">자주 묻는<br><em>질문</em></div>
-    <!-- ⏸ PENDING: 청소년/청년 통합 진행 여부가 확정되면 이 답변을 업데이트하세요. -->
-    <div class="faq-item"><div class="faq-q">참가 대상이 어떻게 되나요? <div class="faq-plus">+</div></div><div class="faq-a">청소년 캠프는 중학생~고등학생, 청년 캠프는 대학생부터 직장인 청년까지 참가 가능합니다. 이번 겨울 5차 캠프는 1·2·3차 세 개 세션으로 운영되며, 각 세션 모두 2박 3일입니다. 청소년·청년 통합 진행 여부는 논의 중이며, 확정되는 대로 안내드립니다.</div></div>
+    <div class="faq-item"><div class="faq-q">참가 대상이 어떻게 되나요? <div class="faq-plus">+</div></div><div class="faq-a">중학생부터 대학생·직장인 청년까지 참가 가능합니다. <strong>이번 5차 캠프는 청소년과 청년이 함께 진행됩니다.</strong> 1·2·3차 세 개 세션으로 운영되며 각 세션 모두 2박 3일이고, 세 세션의 내용은 동일합니다. 원하시는 날짜를 선택해 신청하시면 됩니다.</div></div>
     <div class="faq-item"><div class="faq-q">캠프 일정이 언제인가요? <div class="faq-plus">+</div></div><div class="faq-a">2027년 1월에 세 개 세션으로 진행됩니다. 1차 1월 13일(수)~15일(금), 2차 1월 17일(일)~19일(화), 3차 1월 20일(수)~22일(금)입니다. 원하시는 세션을 선택해 등록하실 수 있습니다.</div></div>
     <div class="faq-item"><div class="faq-q">교회를 다니지 않아도 참가할 수 있나요? <div class="faq-plus">+</div></div><div class="faq-a">물론입니다. AKC는 처음부터 누구에게나 열려 있는 캠프입니다. 교회 출석 여부와 무관하게 참가하실 수 있고, 친구를 따라 처음 와 보는 분들도 많습니다. 강요가 아닌 초대의 자리이니 편하게 오셔도 됩니다.</div></div>
     <div class="faq-item"><div class="faq-q">참가비와 납부 방법은? <div class="faq-plus">+</div></div><div class="faq-a">청소년·청년 모두 90,000원으로 동일합니다. 온라인 등록 후 지정 계좌로 이체하시면 됩니다.</div></div>
