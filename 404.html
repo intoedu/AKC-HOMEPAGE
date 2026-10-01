@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AKC · Arise Korea Camp 홈페이지가 이전되었습니다</title>
+<!-- 예전 주소의 다른 경로(사진 파일 등)로 들어와도 새 홈페이지로 보냅니다 -->
+<!-- AKC 홈페이지는 https://intoedu.github.io/AKC/ 로 하나로 합쳤습니다.
+     이 주소(AKC-HOMEPAGE)로 들어오면 새 주소로 바로 이동합니다.
+     예전에 공유된 링크의 #위치(예: #schedule)는 새 사이트의 해당 페이지로 연결합니다. -->
+<meta http-equiv="refresh" content="0; url=https://intoedu.github.io/AKC/">
+<link rel="canonical" href="https://intoedu.github.io/AKC/">
+<meta name="robots" content="noindex, follow">
+<!-- 카카오톡 · SNS 미리보기도 새 사이트 기준으로 보이게 합니다 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AKC · Arise Korea Camp">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:title" content="AKC · Arise Korea Camp | 캠프보다 캠프 이후가 더 뜨거운 캠프">
+<meta property="og:description" content="2027 겨울 5~7차 캠프 신청 안내. AKC 홈페이지가 intoedu.github.io/AKC 로 이전되었습니다.">
+<meta property="og:url" content="https://intoedu.github.io/AKC/">
+<meta property="og:image" content="https://intoedu.github.io/AKC/assets/img/og.png?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://intoedu.github.io/AKC/assets/img/og.png?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/AKC-HOMEPAGE/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/AKC-HOMEPAGE/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#1A1A1A">
+<script>
+(function () {
+  var BASE = 'https://intoedu.github.io/AKC/';
+  /* 예전 한 페이지 사이트의 #위치 → 새 사이트 페이지 */
+  var MAP = {
+    about: 'about', why: 'about', past: 'about',
+    app: 'about-program#smartchurch',
+    camp: 'camp-spirit', 'young-adult': 'camp-spirit-young',
+    schedule: 'camp-spirit-union#timetable', speakers: 'camp-spirit-union',
+    gallery: 'gallery', location: 'location', faq: 'faq', register: 'contact'
+  };
+  var key = location.hash.replace('#', '');
+  location.replace(BASE + (MAP[key] || ''));
+})();
+</script>
+<style>
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:#1A1A1A;color:#F2F2F2;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    text-align:center;word-break:keep-all;padding:24px}
+  h1{font-size:22px;margin:0 0 12px;color:#fff}
+  p{margin:0 0 28px;color:#C9C9C9;line-height:1.8}
+  a{display:inline-block;background:#F4E04D;color:#1A1A1A;font-weight:900;padding:16px 32px;border-radius:4px;text-decoration:none}
+</style>
+</head>
+<body>
+  <main>
+    <h1>AKC 홈페이지가 이전되었습니다</h1>
+    <p>새 주소로 이동합니다. 자동으로 넘어가지 않으면 아래 버튼을 눌러 주세요.</p>
+    <a href="https://intoedu.github.io/AKC/">새 홈페이지로 가기 →</a>
+  </main>
+</body>
+</html>
